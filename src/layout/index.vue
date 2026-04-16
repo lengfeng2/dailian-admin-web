@@ -228,7 +228,7 @@ const confirmLogout = async () => {
     .logo-text {
       font-size: 18px;
       font-weight: 700;
-      background: linear-gradient(90deg, var(--accent-cyan), var(--accent-purple);
+      background: linear-gradient(90deg, var(--accent-cyan), var(--accent-purple));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
