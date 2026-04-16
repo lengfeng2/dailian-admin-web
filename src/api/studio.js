@@ -219,14 +219,18 @@ export function invitePlayer(data) {
     setTimeout(() => {
       const newInvite = {
         id: Date.now(),
-        studioId: data.studioId,
-        playerId: data.playerId,
+        studioId: parseInt(data.studioId),
+        playerId: Date.now(),
         playerName: data.playerName,
         playerPhone: data.playerPhone,
         gameType: data.gameType,
+        rank: data.rank || '暂无',
+        winRate: 0,
+        orderCount: 0,
+        totalRevenue: 0,
         commissionRate: data.commissionRate || 20,
-        status: 'pending',
-        createdAt: new Date().toISOString().slice(0, 10)
+        status: 'active',
+        joinAt: new Date().toISOString().slice(0, 10)
       }
       mockStudioPlayerList.push(newInvite)
       resolve({
