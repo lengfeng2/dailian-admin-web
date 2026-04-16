@@ -56,6 +56,23 @@
           </template>
           <el-menu-item index="/order/list">订单列表</el-menu-item>
         </el-sub-menu>
+        
+        <el-sub-menu index="/member">
+          <template #title>
+            <el-icon><Medal /></el-icon>
+            <span>会员管理</span>
+          </template>
+          <el-menu-item index="/member/list">会员列表</el-menu-item>
+        </el-sub-menu>
+        
+        <el-sub-menu index="/studio">
+          <template #title>
+            <el-icon><OfficeBuilding /></el-icon>
+            <span>工作室管理</span>
+          </template>
+          <el-menu-item index="/studio/list">工作室列表</el-menu-item>
+          <el-menu-item index="/studio/apply">申请入驻</el-menu-item>
+        </el-sub-menu>
       </el-menu>
     </div>
     
