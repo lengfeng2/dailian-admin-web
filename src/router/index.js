@@ -112,6 +112,58 @@ const routes = [
         meta: { title: '订单详情', icon: 'View', hidden: true }
       }
     ]
+  },
+  {
+    path: '/member',
+    component: () => import('@/layout/index.vue'),
+    redirect: '/member/list',
+    meta: { title: '会员管理', icon: 'Medal' },
+    children: [
+      {
+        path: 'list',
+        name: 'MemberList',
+        component: () => import('@/views/member/list.vue'),
+        meta: { title: '会员列表', icon: 'User' }
+      },
+      {
+        path: 'consumption/:id',
+        name: 'MemberConsumption',
+        component: () => import('@/views/member/consumption.vue'),
+        meta: { title: '消费明细', icon: 'Wallet', hidden: true }
+      }
+    ]
+  },
+  {
+    path: '/studio',
+    component: () => import('@/layout/index.vue'),
+    redirect: '/studio/list',
+    meta: { title: '工作室管理', icon: 'OfficeBuilding' },
+    children: [
+      {
+        path: 'list',
+        name: 'StudioList',
+        component: () => import('@/views/studio/list.vue'),
+        meta: { title: '工作室列表', icon: 'List' }
+      },
+      {
+        path: 'apply',
+        name: 'StudioApply',
+        component: () => import('@/views/studio/apply.vue'),
+        meta: { title: '申请入驻', icon: 'DocumentAdd' }
+      },
+      {
+        path: 'invite/:id',
+        name: 'StudioInvite',
+        component: () => import('@/views/studio/invite.vue'),
+        meta: { title: '打手邀请', icon: 'UserAdd', hidden: true }
+      },
+      {
+        path: 'commission/:id',
+        name: 'StudioCommission',
+        component: () => import('@/views/studio/commission.vue'),
+        meta: { title: '分佣管理', icon: 'Money', hidden: true }
+      }
+    ]
   }
 ]
 
