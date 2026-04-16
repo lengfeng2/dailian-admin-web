@@ -1,0 +1,72 @@
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+@mixin flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+@mixin text-ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@mixin text-ellipsis-multiline($lines: 2) {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: $lines;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@mixin scrollbar {
+  &::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  
+  &::-webkit-scrollbar-track {
+    background: var(--bg-dark);
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background: var(--accent-cyan);
+    border-radius: 3px;
+    opacity: 0.5;
+  }
+  
+  &::-webkit-scrollbar-thumb:hover {
+    background: var(--accent-cyan);
+    opacity: 0.8;
+  }
+}
+
+@mixin glow-box-shadow($color: var(--accent-cyan)) {
+  box-shadow: 0 0 10px rgba($color, 0.3), 0 0 20px rgba($color, 0.2), 0 0 30px rgba($color, 0.1);
+}
+
+@mixin gradient-border($width: 2px, $radius: 8px) {
+  position: relative;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: -$width;
+    left: -$width;
+    right: -$width;
+    bottom: -$width;
+    background: linear-gradient(45deg, var(--accent-cyan), var(--accent-purple), var(--accent-orange));
+    border-radius: $radius;
+    z-index: -1;
+  }
+}
