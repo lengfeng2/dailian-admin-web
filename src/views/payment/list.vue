@@ -506,8 +506,14 @@ const submitConfirm = async () => {
     if (res.code === 200) {
       ElMessage.success(res.message)
       showConfirmDialog.value = false
+      if (searchForm.payStatus === 'pending') {
+        searchForm.payStatus = ''
+        ElMessage.info('已清除"待支付"筛选条件，显示全部支付记录')
+      }
       fetchData()
       fetchStats()
+    } else {
+      ElMessage.error(res.message || '操作失败')
     }
   } catch (error) {
     ElMessage.error('操作失败')

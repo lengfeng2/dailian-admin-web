@@ -191,11 +191,16 @@ export function manualConfirmPayment(data) {
           remark: remark,
           status: 'success'
         })
+        resolve({
+          code: 200,
+          message: '支付确认成功'
+        })
+      } else {
+        resolve({
+          code: 404,
+          message: '支付记录不存在'
+        })
       }
-      resolve({
-        code: 200,
-        message: '支付确认成功'
-      })
     }, 500)
   })
 }

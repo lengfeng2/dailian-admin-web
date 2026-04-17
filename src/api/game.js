@@ -7,6 +7,7 @@ import {
   mockQuickOrderTemplates,
   mockGameStats
 } from '@/mock/game'
+import { mockOrderList } from '@/mock/order'
 
 export function getGameList(params) {
   return new Promise((resolve) => {
@@ -45,6 +46,8 @@ export function getGameList(params) {
       if (recommend) {
         list = list.filter(item => item.recommend === (recommend === 'true'))
       }
+      
+      list.sort((a, b) => (a.sort || 0) - (b.sort || 0))
       
       const total = list.length
       const start = (page - 1) * pageSize
@@ -421,12 +424,51 @@ export function calculateQuickOrderPrice(data) {
 export function submitQuickOrder(data) {
   return new Promise((resolve) => {
     setTimeout(() => {
+      const game = mockGameList.find(g => g.id === data.gameId)
+      const category = mockCategoryList.find(c => c.id === data.categoryId)
+      
       const orderNo = 'DL' + new Date().toISOString().slice(0, 10).replace(/-/g, '') + String(Math.floor(Math.random() * 10000)).padStart(4, '0')
+      const id = 'OD' + new Date().toISOString().slice(0, 10).replace(/-/g, '') + String(Math.floor(Math.random() * 1000)).padStart(3, '0')
+      
+      const newOrder = {
+        id,
+        orderNo,
+        title: `${game?.name || '未知游戏'}-${category?.name || '未知类型'}`,
+        game: game?.name || '未知游戏',
+        category: category?.name || '未知类型',
+        currentRank: data.currentRank || '',
+        targetRank: data.targetRank || '',
+        amount: data.price || 0,
+        deposit: data.deposit || 0,
+        serviceFee: data.serviceFee || 0,
+        playerAmount: data.playerAmount || 0,
+        username: '快速下单用户',
+        nickname: '快速下单用户',
+        phone: '',
+        playerId: null,
+        playerName: null,
+        playerPhone: null,
+        status: 'waiting',
+        payStatus: 'pending',
+        startTime: null,
+        endTime: null,
+        createdAt: new Date().toISOString().slice(0, 19).replace('T', ' '),
+        description: data.requirements || '',
+        requirements: data.requirements || '',
+        screenshots: [],
+        logs: [
+          { time: new Date().toISOString().slice(0, 19).replace('T', ' '), action: '订单创建', operator: '快速下单' }
+        ]
+      }
+      
+      mockOrderList.unshift(newOrder)
+      
       resolve({
         code: 200,
         message: '订单创建成功',
         data: {
           orderNo,
+          id,
           ...data
         }
       })
