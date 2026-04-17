@@ -112,6 +112,58 @@ const routes = [
         meta: { title: '订单详情', icon: 'View', hidden: true }
       }
     ]
+  },
+  {
+    path: '/payment',
+    component: () => import('@/layout/index.vue'),
+    redirect: '/payment/list',
+    meta: { title: '支付管理', icon: 'Wallet' },
+    children: [
+      {
+        path: 'list',
+        name: 'PaymentList',
+        component: () => import('@/views/payment/list.vue'),
+        meta: { title: '支付列表', icon: 'Document' }
+      },
+      {
+        path: 'detail/:id',
+        name: 'PaymentDetail',
+        component: () => import('@/views/payment/detail.vue'),
+        meta: { title: '支付详情', icon: 'View', hidden: true }
+      },
+      {
+        path: 'config',
+        name: 'PaymentConfig',
+        component: () => import('@/views/payment/config.vue'),
+        meta: { title: '支付配置', icon: 'Setting' }
+      }
+    ]
+  },
+  {
+    path: '/game',
+    component: () => import('@/layout/index.vue'),
+    redirect: '/game/list',
+    meta: { title: '游戏专区', icon: 'VideoPlay' },
+    children: [
+      {
+        path: 'list',
+        name: 'GameList',
+        component: () => import('@/views/game/list.vue'),
+        meta: { title: '游戏分类', icon: 'Grid' }
+      },
+      {
+        path: 'category',
+        name: 'GameCategory',
+        component: () => import('@/views/game/category.vue'),
+        meta: { title: '代练类型', icon: 'Menu' }
+      },
+      {
+        path: 'order',
+        name: 'QuickOrder',
+        component: () => import('@/views/game/quickOrder.vue'),
+        meta: { title: '快速下单', icon: 'Plus' }
+      }
+    ]
   }
 ]
 

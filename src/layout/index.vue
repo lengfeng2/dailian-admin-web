@@ -56,6 +56,25 @@
           </template>
           <el-menu-item index="/order/list">订单列表</el-menu-item>
         </el-sub-menu>
+        
+        <el-sub-menu index="/payment">
+          <template #title>
+            <el-icon><Wallet /></el-icon>
+            <span>支付管理</span>
+          </template>
+          <el-menu-item index="/payment/list">支付列表</el-menu-item>
+          <el-menu-item index="/payment/config">支付配置</el-menu-item>
+        </el-sub-menu>
+        
+        <el-sub-menu index="/game">
+          <template #title>
+            <el-icon><VideoPlay /></el-icon>
+            <span>游戏专区</span>
+          </template>
+          <el-menu-item index="/game/list">游戏分类</el-menu-item>
+          <el-menu-item index="/game/category">代练类型</el-menu-item>
+          <el-menu-item index="/game/order">快速下单</el-menu-item>
+        </el-sub-menu>
       </el-menu>
     </div>
     
@@ -228,7 +247,7 @@ const confirmLogout = async () => {
     .logo-text {
       font-size: 18px;
       font-weight: 700;
-      background: linear-gradient(90deg, var(--accent-cyan), var(--accent-purple);
+      background: linear-gradient(90deg, var(--accent-cyan), var(--accent-purple));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
