@@ -409,7 +409,7 @@ const handleToggleStatus = async (row) => {
     })
     if (res.code === 200) {
       ElMessage.success(res.message)
-      row.status = newStatus
+      fetchData()
       fetchStats()
     }
   } catch (error) {

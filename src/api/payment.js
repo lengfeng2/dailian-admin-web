@@ -38,6 +38,15 @@ export function getPaymentList(params) {
         list = list.filter(item => item.refundStatus === refundStatus)
       }
       
+      if (startTime && endTime) {
+        const startDate = new Date(startTime)
+        const endDate = new Date(endTime + ' 23:59:59')
+        list = list.filter(item => {
+          const itemDate = new Date(item.createdAt)
+          return itemDate >= startDate && itemDate <= endDate
+        })
+      }
+      
       const total = list.length
       const start = (page - 1) * pageSize
       const end = start + pageSize

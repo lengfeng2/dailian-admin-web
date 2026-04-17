@@ -501,7 +501,7 @@ const handleToggleHot = async (row) => {
     })
     if (res.code === 200) {
       ElMessage.success(res.message)
-      row.hot = !row.hot
+      fetchData()
     }
   } catch (error) {
     ElMessage.error('操作失败')
@@ -516,7 +516,7 @@ const handleToggleRecommend = async (row) => {
     })
     if (res.code === 200) {
       ElMessage.success(res.message)
-      row.recommend = !row.recommend
+      fetchData()
     }
   } catch (error) {
     ElMessage.error('操作失败')

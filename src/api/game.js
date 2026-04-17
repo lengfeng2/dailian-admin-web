@@ -158,6 +158,11 @@ export function toggleGameStatus(data) {
           code: 200,
           message: data.status === 'active' ? '游戏已启用' : '游戏已禁用'
         })
+      } else {
+        resolve({
+          code: 404,
+          message: '游戏不存在'
+        })
       }
     }, 300)
   })
@@ -169,9 +174,15 @@ export function toggleGameHot(data) {
       const index = mockGameList.findIndex(g => g.id === data.id)
       if (index !== -1) {
         mockGameList[index].hot = data.hot
+        mockGameList[index].updatedAt = new Date().toISOString().slice(0, 19).replace('T', ' ')
         resolve({
           code: 200,
           message: data.hot ? '已设为热门' : '已取消热门'
+        })
+      } else {
+        resolve({
+          code: 404,
+          message: '游戏不存在'
         })
       }
     }, 300)
@@ -184,9 +195,15 @@ export function toggleGameRecommend(data) {
       const index = mockGameList.findIndex(g => g.id === data.id)
       if (index !== -1) {
         mockGameList[index].recommend = data.recommend
+        mockGameList[index].updatedAt = new Date().toISOString().slice(0, 19).replace('T', ' ')
         resolve({
           code: 200,
           message: data.recommend ? '已设为推荐' : '已取消推荐'
+        })
+      } else {
+        resolve({
+          code: 404,
+          message: '游戏不存在'
         })
       }
     }, 300)
@@ -215,6 +232,8 @@ export function getCategoryList(params) {
       if (status) {
         list = list.filter(item => item.status === status)
       }
+      
+      list.sort((a, b) => (a.sort || 0) - (b.sort || 0))
       
       const total = list.length
       const start = (page - 1) * pageSize
@@ -323,6 +342,11 @@ export function toggleCategoryStatus(data) {
         resolve({
           code: 200,
           message: data.status === 'active' ? '代练类型已启用' : '代练类型已禁用'
+        })
+      } else {
+        resolve({
+          code: 404,
+          message: '代练类型不存在'
         })
       }
     }, 300)

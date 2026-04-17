@@ -404,14 +404,19 @@ const closeForm = reactive({
 const fetchData = async () => {
   loading.value = true
   try {
-    const res = await getPaymentList({
+    const params = {
       page: pagination.page,
       pageSize: pagination.pageSize,
       keyword: searchForm.keyword,
       payMethod: searchForm.payMethod,
       payStatus: searchForm.payStatus,
       refundStatus: searchForm.refundStatus
-    })
+    }
+    if (searchForm.dateRange && searchForm.dateRange.length === 2) {
+      params.startTime = searchForm.dateRange[0]
+      params.endTime = searchForm.dateRange[1]
+    }
+    const res = await getPaymentList(params)
     if (res.code === 200) {
       tableData.value = res.data.list
       pagination.total = res.data.total
@@ -569,8 +574,102 @@ const submitClose = async () => {
   }
 }
 
-const handleExport = () => {
-  ElMessage.info('导出功能开发中...')
+const handleExport = async () => {
+  try {
+    const params = {
+      page: 1,
+      pageSize: 10000,
+      keyword: searchForm.keyword,
+      payMethod: searchForm.payMethod,
+      payStatus: searchForm.payStatus,
+      refundStatus: searchForm.refundStatus
+    }
+    if (searchForm.dateRange && searchForm.dateRange.length === 2) {
+      params.startTime = searchForm.dateRange[0]
+      params.endTime = searchForm.dateRange[1]
+    }
+    const res = await getPaymentList(params)
+    if (res.code === 200 && res.data.list.length > 0) {
+      const list = res.data.list
+      
+      const headers = [
+        '支付单号',
+        '关联订单',
+        '订单信息',
+        '付款人',
+        '联系电话',
+        '金额',
+        '支付方式',
+        '支付状态',
+        '退款状态',
+        '第三方流水号',
+        '创建时间',
+        '支付时间'
+      ]
+      
+      const methodMap = {
+        wechat: '微信支付',
+        alipay: '支付宝',
+        bank: '银行转账'
+      }
+      
+      const statusMap = {
+        pending: '待支付',
+        success: '支付成功',
+        failed: '支付失败',
+        closed: '已关闭',
+        refunded: '已退款'
+      }
+      
+      const refundMap = {
+        none: '无',
+        pending: '退款中',
+        processing: '处理中',
+        success: '退款成功',
+        failed: '退款失败',
+        rejected: '退款驳回'
+      }
+      
+      const rows = list.map(item => [
+        item.paymentNo,
+        item.orderNo,
+        item.orderTitle,
+        item.payer,
+        item.payerPhone,
+        item.amount,
+        methodMap[item.payMethod] || item.payMethod,
+        statusMap[item.payStatus] || item.payStatus,
+        refundMap[item.refundStatus] || item.refundStatus,
+        item.tradeNo || '-',
+        item.createdAt,
+        item.paidAt || '-'
+      ])
+      
+      const csvContent = [
+        headers.join(','),
+        ...rows.map(row => row.map(cell => `"${cell}"`).join(','))
+      ].join('\n')
+      
+      const BOM = '\uFEFF'
+      const blob = new Blob([BOM + csvContent], { type: 'text/csv;charset=utf-8;' })
+      const link = document.createElement('a')
+      const url = URL.createObjectURL(blob)
+      link.setAttribute('href', url)
+      link.setAttribute('download', `支付记录_${new Date().toISOString().slice(0, 10)}.csv`)
+      link.style.visibility = 'hidden'
+      document.body.appendChild(link)
+      link.click()
+      document.body.removeChild(link)
+      URL.revokeObjectURL(url)
+      
+      ElMessage.success(`成功导出 ${list.length} 条记录`)
+    } else {
+      ElMessage.warning('没有可导出的数据')
+    }
+  } catch (error) {
+    console.error('Export failed:', error)
+    ElMessage.error('导出失败')
+  }
 }
 
 onMounted(() => {
